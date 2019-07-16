@@ -6,29 +6,30 @@ public class TestPlayer : MonoBehaviour
 {
     [SerializeField]
     private WaterIN waterIN;
+    [SerializeField]
+    private NewWaterIN nwIN;
     private Rigidbody2D rigid;
     
 
     private void Start()
     {
         rigid = gameObject.GetComponent<Rigidbody2D>();
-        waterIN.RigidSet(rigid);
+        nwIN.RigidSet(rigid);
     }
 
     private void Update()
     {
-        if (waterIN.waterInCheack)
+        if (nwIN.waterInCheack)
         {
-            waterIN.WaterInPlayerSetInput();
+            nwIN.WaterInPlayerMove();
         }
     }
 
     private void FixedUpdate()
     {
-        if (waterIN.waterInCheack)
+        if (nwIN.waterInCheack)
         {
-            waterIN.WaterInPlayerMove();
-            waterIN.Fall();
+            nwIN.WIPMove();
         }
     }
 
@@ -36,7 +37,7 @@ public class TestPlayer : MonoBehaviour
     {
         if (collision.gameObject.name == "Water")
         {
-            waterIN.waterInCheack = true;
+            nwIN.waterInCheack = true;
         }
     }
 
@@ -44,7 +45,7 @@ public class TestPlayer : MonoBehaviour
     {
         if (collision.gameObject.name == "Water")
         {
-            waterIN.waterInCheack = false;
+            nwIN.waterInCheack = false;
         }
     }
 }
