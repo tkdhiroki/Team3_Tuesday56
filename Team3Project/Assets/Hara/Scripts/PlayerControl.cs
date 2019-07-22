@@ -1,25 +1,51 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider2D))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class PlayerControl : MonoBehaviour
 {
     public static PlayerControl Instance;
 
-    private Rigidbody2D rb;
-    private BoxCollider2D bc;
-    private float stateEffect = 1.0f;     // キャラクターの状態に応じてスピードを変化させる
-    private float runForce = 1.5f;        // 走り始めに加える速度
-    private float runSpeed = 0.5f;        // キャラクターの移動速度
-    private float runThreshold = 2.2f;    // 速度切り替え判定のための閾値
-    private int key = 0;                  // 左右の入力検知　1ならば右、-1ならば左
+    private Rigidbody2D rigid2D;
+    [SerializeField, Tooltip("移動時に与える速度")]
+    private float walkForce = 30.0f;
+    [SerializeField, Tooltip("プレイヤーの歩く最大速度")]
+    private float maxWalkSpeed = 5.0f;
     [SerializeField]
-    private bool isNormal = true;         // ダイビングスーツを着ていない状態ならばtrue
+    private float playerStateSpeed;    // プレイヤーの状態に応じた速度
+    [SerializeField, Tooltip("ジャンプ時に与える速度")]
+    private float jumpForce = 700.0f;
 
+    [SerializeField, Tooltip("プレイヤーが水中にいるか")]
+    private bool isDiving = false;
+    public bool IsDiving { set { isDiving = value; } }
+    [SerializeField, Tooltip("ジャンプを許可するか")]
+    private bool permissionJump = false;
+    private bool isGround;    // 地面と接地しているかを検知
 
-    public bool IsNormal { set { isNormal = value; } }
+    [SerializeField, Tooltip("プレイヤーの年齢変化（10段階）")]
+    private PlayerState state = PlayerState.First;
+    private float speedDeduction;    // 速度の減少値
 
+    /// <summary>
+    /// プレイヤーの状態（年齢変化）
+    /// </summary>
+    private enum PlayerState
+    {
+        First,
+        Second,
+        Third,
+        Fourth,
+        Fifth,
+        Sixth,
+        Seventh,
+        Eighth,
+        Ninth,
+        Tenth
+    }
 
     private void Awake()
     {
@@ -29,46 +55,70 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        bc = GetComponent<BoxCollider2D>();
+        rigid2D = GetComponent<Rigidbody2D>();
+        speedDeduction = playerStateSpeed / Enum.GetValues(typeof(PlayerState)).Length;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (isNormal)
+        if (!isDiving)
         {
-            GetInputKey();
-            Move();
+            PlayerMoveSpeed();
+            PlayerMove();
         }
     }
 
     /// <summary>
-    /// 左右の入力を検知する
+    /// プレイヤーの状態に応じた移動速度を算出する関数
     /// </summary>
-    private void GetInputKey()
+    private void PlayerMoveSpeed()
     {
-        key = 0;
-        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)) key = 1;    // 右の入力を検知
-        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)) key = -1;    // 左の入力を検知
+        playerStateSpeed = 1.0f - (speedDeduction * (int)state);
     }
 
     /// <summary>
-    /// 検知した入力に応じて移動処理を開始する
+    /// プレイヤーの移動を管理する関数
     /// </summary>
-    private void Move()
+    private void PlayerMove()
     {
-        float speedX = Mathf.Abs(rb.velocity.x);
-        if (speedX < this.runThreshold)
+        // 左右の入力検知
+        int key = 0;
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)) key = -1;
+        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)) key = 1;
+
+        // プレイヤーの速度
+        float speedx = Mathf.Abs(rigid2D.velocity.x);
+
+        // スピード制限
+        if(speedx < maxWalkSpeed)
         {
-            rb.AddForce(transform.right * key * this.runForce * stateEffect); //未入力の場合は key の値が0になるため移動しない
+            rigid2D.AddForce(transform.right * key * walkForce * playerStateSpeed);
         }
-        else
+
+        // 動く方向に応じて反転
+        if(key != 0)
         {
-            transform.position += new Vector3(runSpeed * Time.deltaTime * key * stateEffect, 0, 0);
+            transform.localScale = new Vector3(key, 1, 1);
         }
+
+        // ジャンプ
+        if(permissionJump && Input.GetKeyDown(KeyCode.Space) && isGround)
+        {
+            rigid2D.AddForce(transform.up * jumpForce * playerStateSpeed);
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        // 地面との接地を検知
+        isGround = true;
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        // 地面との非接地を検知
+        isGround = false;
     }
 }
