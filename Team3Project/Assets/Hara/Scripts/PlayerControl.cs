@@ -14,8 +14,6 @@ public class PlayerControl : MonoBehaviour
     private float walkForce = 30.0f;
     [SerializeField, Tooltip("プレイヤーの歩く最大速度")]
     private float maxWalkSpeed = 5.0f;
-    [SerializeField]
-    private float playerStateSpeed;    // プレイヤーの状態に応じた速度
     [SerializeField, Tooltip("ジャンプ時に与える速度")]
     private float jumpForce = 700.0f;
 
@@ -26,9 +24,32 @@ public class PlayerControl : MonoBehaviour
     private bool permissionJump = false;
     private bool isGround;    // 地面と接地しているかを検知
 
-    [SerializeField, Tooltip("プレイヤーの年齢変化（10段階）")]
+    [SerializeField, Tooltip("プレイヤーの年齢変化（5段階）")]
     private PlayerState state = PlayerState.First;
     private float speedDeduction;    // 速度の減少値
+    private float jumpDeduction;     // ジャンプ力の減少値
+    public int PlayerStatePhase
+    {
+        set
+        {
+            if(value < 0)
+            {
+                state = PlayerState.First;
+            }
+            else if(value >= Enum.GetValues(typeof(PlayerState)).Length)
+            {
+                state = (PlayerState)Enum.ToObject(typeof(PlayerState), Enum.GetValues(typeof(PlayerState)).Length - 1);
+            }
+            else
+            {
+                state = (PlayerState)Enum.ToObject(typeof(PlayerState), value);
+            }
+        }
+        get
+        {
+            return (int)state;
+        }
+    }
 
     /// <summary>
     /// プレイヤーの状態（年齢変化）
@@ -40,11 +61,6 @@ public class PlayerControl : MonoBehaviour
         Third,
         Fourth,
         Fifth,
-        Sixth,
-        Seventh,
-        Eighth,
-        Ninth,
-        Tenth
     }
 
     private void Awake()
@@ -58,24 +74,16 @@ public class PlayerControl : MonoBehaviour
     private void Start()
     {
         rigid2D = GetComponent<Rigidbody2D>();
-        speedDeduction = playerStateSpeed / Enum.GetValues(typeof(PlayerState)).Length;
+        speedDeduction = maxWalkSpeed / Enum.GetValues(typeof(PlayerState)).Length;
+        jumpDeduction = jumpForce / Enum.GetValues(typeof(PlayerState)).Length / 2;
     }
 
     private void Update()
     {
         if (!isDiving)
         {
-            PlayerMoveSpeed();
             PlayerMove();
         }
-    }
-
-    /// <summary>
-    /// プレイヤーの状態に応じた移動速度を算出する関数
-    /// </summary>
-    private void PlayerMoveSpeed()
-    {
-        playerStateSpeed = 1.0f - (speedDeduction * (int)state);
     }
 
     /// <summary>
@@ -90,11 +98,13 @@ public class PlayerControl : MonoBehaviour
 
         // プレイヤーの速度
         float speedx = Mathf.Abs(rigid2D.velocity.x);
+        float maxWalk = maxWalkSpeed - (speedDeduction * (int)state);
+        float maxJump = jumpForce - (jumpDeduction * (int)state);
 
         // スピード制限
-        if(speedx < maxWalkSpeed)
+        if(speedx < maxWalk)
         {
-            rigid2D.AddForce(transform.right * key * walkForce * playerStateSpeed);
+            rigid2D.AddForce(transform.right * key * walkForce);
         }
 
         // 動く方向に応じて反転
@@ -106,7 +116,7 @@ public class PlayerControl : MonoBehaviour
         // ジャンプ
         if(permissionJump && Input.GetKeyDown(KeyCode.Space) && isGround)
         {
-            rigid2D.AddForce(transform.up * jumpForce * playerStateSpeed);
+            rigid2D.AddForce(transform.up * maxJump);
         }
     }
 
