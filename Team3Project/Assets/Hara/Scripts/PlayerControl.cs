@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider2D))]
+[RequireComponent(typeof(CircleCollider2D))]
 [RequireComponent(typeof(Rigidbody2D))]
+
 public class PlayerControl : MonoBehaviour
 {
     public static PlayerControl Instance;
@@ -23,26 +25,32 @@ public class PlayerControl : MonoBehaviour
     [SerializeField, Tooltip("ジャンプを許可するか")]
     private bool permissionJump = false;
     private bool isGround;    // 地面と接地しているかを検知
+    [SerializeField, Tooltip("接地を確認するためのRayの長さ")]
+    private float rayRange = 0.5f;
 
     [SerializeField, Tooltip("プレイヤーの年齢変化（5段階）")]
     private PlayerState state = PlayerState.First;
     private float speedDeduction;    // 速度の減少値
     private float jumpDeduction;     // ジャンプ力の減少値
+    private int indexLength;         // 要素数
     public int PlayerStatePhase
     {
         set
         {
-            if(value < 0)
+            if (!isDiving)
             {
-                state = PlayerState.First;
-            }
-            else if(value >= Enum.GetValues(typeof(PlayerState)).Length)
-            {
-                state = (PlayerState)Enum.ToObject(typeof(PlayerState), Enum.GetValues(typeof(PlayerState)).Length - 1);
-            }
-            else
-            {
-                state = (PlayerState)Enum.ToObject(typeof(PlayerState), value);
+                if (value < 0)
+                {
+                    state = PlayerState.First;
+                }
+                else if (value >= indexLength)
+                {
+                    state = (PlayerState)Enum.ToObject(typeof(PlayerState), indexLength - 1);
+                }
+                else
+                {
+                    state = (PlayerState)Enum.ToObject(typeof(PlayerState), value);
+                }
             }
         }
         get
@@ -74,8 +82,9 @@ public class PlayerControl : MonoBehaviour
     private void Start()
     {
         rigid2D = GetComponent<Rigidbody2D>();
-        speedDeduction = maxWalkSpeed / Enum.GetValues(typeof(PlayerState)).Length;
-        jumpDeduction = jumpForce / Enum.GetValues(typeof(PlayerState)).Length / 2;
+        indexLength = Enum.GetValues(typeof(PlayerState)).Length;
+        speedDeduction = maxWalkSpeed / indexLength;
+        jumpDeduction = jumpForce / indexLength / 2;
     }
 
     private void Update()
@@ -118,17 +127,16 @@ public class PlayerControl : MonoBehaviour
         {
             rigid2D.AddForce(transform.up * maxJump);
         }
-    }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        // 地面との接地を検知
-        isGround = true;
-    }
+        if (Physics2D.Linecast(transform.position, (transform.position - transform.up * rayRange)))
+        {
+            isGround = true;
+        }
+        else
+        {
+            isGround = false;
+        }
 
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        // 地面との非接地を検知
-        isGround = false;
+        Debug.DrawLine(transform.position, (transform.position - transform.up * rayRange), Color.red);
     }
 }
