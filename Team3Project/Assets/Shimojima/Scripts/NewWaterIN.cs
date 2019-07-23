@@ -126,7 +126,7 @@ public class NewWaterIN : MonoBehaviour
             //左方向の入力
             if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
             {
-                transform.localScale = new Vector3(-0.2f, 0.2f, 1);
+                transform.localScale = new Vector3(-0.1f, 0.1f, 1);
                 accelalationX = 0;
                 kNum = KeyNum.Left;
             }
@@ -134,7 +134,7 @@ public class NewWaterIN : MonoBehaviour
             //右方向の入力
             if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
             {
-                transform.localScale = new Vector3(0.2f, 0.2f, 1);
+                transform.localScale = new Vector3(0.1f, 0.1f, 1);
                 accelalationX = 0;
                 kNum = KeyNum.Right;
             }
@@ -197,6 +197,11 @@ public class NewWaterIN : MonoBehaviour
         }
         
         gameObject.transform.localPosition = new Vector2(gameObject.transform.localPosition.x + moveSpeed.x, gameObject.transform.localPosition.y + moveSpeed.y);
+    }
+
+    public void MoveStop()
+    {
+        moveSpeed = new Vector2(0,0);
     }
 
     /// <summary>
