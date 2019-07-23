@@ -45,10 +45,21 @@ public class SanMaterPlus : MonoBehaviour
     //何かイベントが起きたかどうかの判断
     public void EventCheck()
     {
-        //イベントが発生したらSAN値を上昇させる
-        if (Event.eventFlag == true)
+        //各イベントが発生したらSAN値を上昇させフラグをオフにする
+        if (Event.explosion == true)
         {
-            NowValue += 1;
+            NowValue += 10;
+            Event.explosion = false;
+        }
+        else if (Event.cadaverMeet == true)
+        {
+            NowValue += 10;
+            Event.cadaverMeet = false;
+        }
+        else if (Event.water == true)
+        {
+            NowValue += 5;
+            Event.water = false;
         }
     }
 
