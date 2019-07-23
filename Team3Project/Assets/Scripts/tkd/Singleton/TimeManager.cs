@@ -1,15 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class TimeManager : SingletonMonoBehavior<TimeManager>
 {
     public float LimitTime { get; private set; } = 300f;     // ゲームが終わるまでの時間
-
-    private void Start()
-    {
-
-    }
+    
     private void Update()
     {
         ReduceTime();        
