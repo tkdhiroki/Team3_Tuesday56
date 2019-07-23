@@ -63,8 +63,11 @@ public class NewWaterIN : MonoBehaviour
     /// <returns></returns>
     public int MoveCheack()
     {
-        x = Input.GetAxis("Horizontal");
-        y = Input.GetAxis("Vertical");
+        if (!SanMaterPlus.madFlag)
+        {
+            x = Input.GetAxis("Horizontal");
+            y = Input.GetAxis("Vertical");
+        }
         if (x != 0 && y == 0)
         {
             return 1;
@@ -90,62 +93,65 @@ public class NewWaterIN : MonoBehaviour
     /// </summary>
     public void WaterInPlayerMove()
     {
-        if (MoveCheack() == 1 || MoveCheack() == 2)
+        if (!SanMaterPlus.madFlag)
         {
-            if (MoveCheack() == 1)
+            if (MoveCheack() == 1 || MoveCheack() == 2)
+            {
+                if (MoveCheack() == 1)
+                {
+                    aTimeX += Time.deltaTime;
+                    AccelalationPlus(1);
+                    moveSpeed.y *= breaking;
+                }
+                else if (MoveCheack() == 2)
+                {
+                    aTimeY += Time.deltaTime;
+                    AccelalationPlus(2);
+                    moveSpeed.x *= breaking;
+                }
+            }
+            else if (MoveCheack() == 3)
             {
                 aTimeX += Time.deltaTime;
+                aTimeY += Time.deltaTime;
                 AccelalationPlus(1);
+                AccelalationPlus(2);
+            }
+            else if (MoveCheack() == 0)
+            {
+                moveSpeed.x *= breaking;
                 moveSpeed.y *= breaking;
             }
-            else if (MoveCheack() == 2)
+
+            //左方向の入力
+            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
             {
-                aTimeY += Time.deltaTime;
-                AccelalationPlus(2);
-                moveSpeed.x *= breaking;
+                transform.localScale = new Vector3(-0.2f, 0.2f, 1);
+                accelalationX = 0;
+                kNum = KeyNum.Left;
             }
-        }
-        else if (MoveCheack() == 3)
-        {
-            aTimeX += Time.deltaTime;
-            aTimeY += Time.deltaTime;
-            AccelalationPlus(1);
-            AccelalationPlus(2);
-        }
-        else if (MoveCheack() == 0)
-        {
-            moveSpeed.x *= breaking;
-            moveSpeed.y *= breaking;
-        }
 
-        //左方向の入力
-        if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            transform.localScale = new Vector3(-0.2f, 0.2f, 1);
-            accelalationX = 0;
-            kNum = KeyNum.Left;
-        }
+            //右方向の入力
+            if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                transform.localScale = new Vector3(0.2f, 0.2f, 1);
+                accelalationX = 0;
+                kNum = KeyNum.Right;
+            }
 
-        //右方向の入力
-        if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            transform.localScale = new Vector3(0.2f, 0.2f, 1);
-            accelalationX = 0;
-            kNum = KeyNum.Right;
-        }
+            //上方向の入力
+            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                accelalationY = 0;
+                kNum = KeyNum.Up;
+            }
 
-        //上方向の入力
-        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            accelalationY = 0;
-            kNum = KeyNum.Up;
-        }
-
-        //下方向の入力
-        if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            accelalationY = 0;
-            kNum = KeyNum.Down;
+            //下方向の入力
+            if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                accelalationY = 0;
+                kNum = KeyNum.Down;
+            }
         }
 
         time += Time.deltaTime;
