@@ -5,8 +5,6 @@ using UnityEngine;
 public class TestPlayer : MonoBehaviour
 {
     [SerializeField]
-    private WaterIN waterIN;
-    [SerializeField]
     private NewWaterIN nwIN;
     private Rigidbody2D rigid;
     
