@@ -13,6 +13,7 @@ public class PlayerControl : MonoBehaviour
 
     private Rigidbody2D rigid2D;
     private SpriteRenderer sprite;
+    private Animator animator;
     [SerializeField, Tooltip("移動時に与える速度")]
     private float walkForce = 30.0f;
     [SerializeField, Tooltip("プレイヤーの歩く最大速度")]
@@ -83,6 +84,7 @@ public class PlayerControl : MonoBehaviour
     {
         rigid2D = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
         indexLength = Enum.GetValues(typeof(PlayerState)).Length;
         speedDeduction = maxWalkSpeed / indexLength;
         jumpDeduction = jumpForce / indexLength / 2;
@@ -135,5 +137,7 @@ public class PlayerControl : MonoBehaviour
         {
             rigid2D.AddForce(transform.up * maxJump);
         }
+
+        animator.speed = speedx / 2.0f;
     }
 }
