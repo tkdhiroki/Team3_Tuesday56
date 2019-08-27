@@ -34,11 +34,11 @@ public class SanMaterPlus : MonoBehaviour
     //SAN値が最大値になったかどうか
     private void SanCheck()
     {
-        //最大値になったら発狂して10秒後に解除しSAN値を０にする
+        //最大値になったら発狂して10秒後に解除しSAN値を0にする
         if(NowValue == MaxValue)
         {
             madFlag = true;
-            StartCoroutine(SanReset(10f));
+            StartCoroutine(SanReset(5f));
         }
     }
 
