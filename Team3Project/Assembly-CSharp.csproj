@@ -60,10 +60,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Syuu\Oxygen.cs" />
-    <Compile Include="Assets\Syuu\Player.cs" />
     <Compile Include="Assets\Syuu\Syuu\GameOutcome.cs" />
+    <Compile Include="Assets\Syuu\Syuu\Oxygen.cs" />
+    <Compile Include="Assets\Syuu\Syuu\Player.cs" />
     <Compile Include="Assets\Syuu\Syuu\PlayerUI.cs" />
+    <Compile Include="Assets\Syuu\Syuu\TIME.cs" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>C:/Users/student/Desktop/Team3_Tuesday56/Team3Project/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
