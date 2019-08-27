@@ -4,14 +4,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider2D))]
-[RequireComponent(typeof(CircleCollider2D))]
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(SpriteRenderer))]
 
 public class PlayerControl : MonoBehaviour
 {
     public static PlayerControl Instance;
 
     private Rigidbody2D rigid2D;
+    private SpriteRenderer sprite;
     [SerializeField, Tooltip("移動時に与える速度")]
     private float walkForce = 30.0f;
     [SerializeField, Tooltip("プレイヤーの歩く最大速度")]
@@ -24,7 +25,6 @@ public class PlayerControl : MonoBehaviour
     public bool IsDiving { set { isDiving = value; } }
     [SerializeField, Tooltip("ジャンプを許可するか")]
     private bool permissionJump = false;
-    private bool isGround;    // 地面と接地しているかを検知
     [SerializeField, Tooltip("接地を確認するためのRayの長さ")]
     private float rayRange = 0.5f;
 
@@ -82,6 +82,7 @@ public class PlayerControl : MonoBehaviour
     private void Start()
     {
         rigid2D = GetComponent<Rigidbody2D>();
+        sprite = GetComponent<SpriteRenderer>();
         indexLength = Enum.GetValues(typeof(PlayerState)).Length;
         speedDeduction = maxWalkSpeed / indexLength;
         jumpDeduction = jumpForce / indexLength / 2;
@@ -119,24 +120,20 @@ public class PlayerControl : MonoBehaviour
         // 動く方向に応じて反転
         if(key != 0)
         {
-            transform.localScale = new Vector3(key, 1, 1);
+            if(key > 0)
+            {
+                sprite.flipX = false;
+            }
+            else
+            {
+                sprite.flipX = true;
+            }
         }
 
         // ジャンプ
-        if(permissionJump && Input.GetKeyDown(KeyCode.Space) && isGround)
+        if(permissionJump && Input.GetKeyDown(KeyCode.Space) && rigid2D.velocity.y == 0)
         {
             rigid2D.AddForce(transform.up * maxJump);
         }
-
-        if (Physics2D.Linecast(transform.position, (transform.position - transform.up * rayRange)))
-        {
-            isGround = true;
-        }
-        else
-        {
-            isGround = false;
-        }
-
-        Debug.DrawLine(transform.position, (transform.position - transform.up * rayRange), Color.red);
     }
 }
