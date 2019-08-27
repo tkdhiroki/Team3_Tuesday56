@@ -5,28 +5,28 @@ using UnityEngine;
 public class NewWaterIN : MonoBehaviour
 {
     [Header("-酸素-")]
-    public float oxygen;
+    public float oxygen; //100
     [SerializeField]
-    private float maxOx;
+    private float maxOx; //100
 
     [Header("-水中移動-")]
 
     [SerializeField]
     private Vector2 moveSpeed;
-    public float changeSpeed;
-    public float breaking;  //減衰係数
+    public float changeSpeed; //初期値 0.9
+    public float breaking;  //減衰係数 0.97
 
     [Header("横方向")]
     [SerializeField]
     private float accelalationX; //加速値
     [SerializeField]
-    private float accelNumX; //加速値に追加する値
+    private float accelNumX; //加速値に追加する値 0.0001
 
     [Header("縦方向")]
     [SerializeField]
     private float accelalationY; //加速値
     [SerializeField]
-    private float accelNumY; //加速値に追加する値
+    private float accelNumY; //加速値に追加する値 0.0001
 
     private float x, y; //キー入力の判定用
 
