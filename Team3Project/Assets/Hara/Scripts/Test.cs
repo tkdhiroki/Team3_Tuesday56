@@ -16,5 +16,10 @@ public class Test : MonoBehaviour
         {
             PlayerControl.Instance.PlayerStatePhase--;
         }
+
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            PlayerControl.Instance.UpSAN();
+        }
     }
 }
