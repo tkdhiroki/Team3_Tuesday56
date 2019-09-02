@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: dungeon2
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+    variantMultiplier: 1
+    packables:
+    - {fileID: 2800000, guid: cb862503d04020a4b97132d580404a5f, type: 3}
+    totalSpriteSurfaceArea: 3840
+    bindAsDefault: 1
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300012, guid: cb862503d04020a4b97132d580404a5f, type: 3}
+  - {fileID: 21300014, guid: cb862503d04020a4b97132d580404a5f, type: 3}
+  - {fileID: 21300008, guid: cb862503d04020a4b97132d580404a5f, type: 3}
+  - {fileID: 21300010, guid: cb862503d04020a4b97132d580404a5f, type: 3}
+  - {fileID: 21300004, guid: cb862503d04020a4b97132d580404a5f, type: 3}
+  - {fileID: 21300006, guid: cb862503d04020a4b97132d580404a5f, type: 3}
+  - {fileID: 21300000, guid: cb862503d04020a4b97132d580404a5f, type: 3}
+  - {fileID: 21300002, guid: cb862503d04020a4b97132d580404a5f, type: 3}
+  - {fileID: 21300016, guid: cb862503d04020a4b97132d580404a5f, type: 3}
+  - {fileID: 21300018, guid: cb862503d04020a4b97132d580404a5f, type: 3}
+  - {fileID: 21300028, guid: cb862503d04020a4b97132d580404a5f, type: 3}
+  - {fileID: 21300022, guid: cb862503d04020a4b97132d580404a5f, type: 3}
+  - {fileID: 21300020, guid: cb862503d04020a4b97132d580404a5f, type: 3}
+  - {fileID: 21300026, guid: cb862503d04020a4b97132d580404a5f, type: 3}
+  - {fileID: 21300024, guid: cb862503d04020a4b97132d580404a5f, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - dungeon2_6
+  - dungeon2_7
+  - dungeon2_4
+  - dungeon2_5
+  - dungeon2_2
+  - dungeon2_3
+  - dungeon2_0
+  - dungeon2_1
+  - dungeon2_8
+  - dungeon2_9
+  - dungeon2_14
+  - dungeon2_11
+  - dungeon2_10
+  - dungeon2_13
+  - dungeon2_12
+  m_Tag: dungeon2
+  m_IsVariant: 0
