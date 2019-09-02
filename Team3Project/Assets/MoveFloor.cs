@@ -7,6 +7,7 @@ public class MoveFloor : MonoBehaviour
     [SerializeField]
     float startX, endX;
     bool enu;//　どっち側に移動するか
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,10 +24,11 @@ public class MoveFloor : MonoBehaviour
         if (startX <= transform.position.x)
         {
             enu = true;
-        }else if(endX >= transform.position.x)
+        }
+        else if (endX >= transform.position.x)
         {
             enu = false;
         }
-        transform.position = new Vector3((enu)? transform.position.x - 0.05f : transform.position.x + 0.05f,transform.position.y,transform.position.z);
+        transform.position = new Vector3((enu) ? transform.position.x - 0.05f : transform.position.x + 0.05f, transform.position.y, transform.position.z);
     }
 }

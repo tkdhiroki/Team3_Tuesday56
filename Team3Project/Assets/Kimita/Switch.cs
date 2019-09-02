@@ -27,7 +27,7 @@ public class Switch : MonoBehaviour
     void Start()
     {
         enable = false;
-        Camera = GameObject.Find("Main Camera");
+        //Camera = GameObject.Find("Main Camera");
     }
 
     // Update is called once per frame
@@ -37,7 +37,7 @@ public class Switch : MonoBehaviour
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (Input.GetKeyDown(KeyCode.Space)&&collision.gameObject.tag == "Player"&&!enable)
+        if (Input.GetKeyDown(KeyCode.E)&&collision.gameObject.tag == "Player"&&!enable)
         {
             switch (own)
             {
@@ -82,33 +82,34 @@ public class Switch : MonoBehaviour
     {
         float up = 0;
         float now = Floor.transform.position.y;
-        float nowC = Camera.transform.position.y;
+        //float nowC = Camera.transform.position.y;
         while (up < 7)
         {
             yield return new WaitForSeconds(Time.deltaTime); 
             Floor.transform.position = new Vector3(Floor.transform.position.x, now + up, Floor.transform.position.z);
-            Camera.transform.position = new Vector3(Camera.transform.position.x, nowC + up*1.5f, Camera.transform.position.z);
+            //Camera.transform.position = new Vector3(Camera.transform.position.x, nowC + up*1.5f, Camera.transform.position.z);
             up += 0.1f;
         }
         up = 7;
         Floor.transform.position = new Vector3(Floor.transform.position.x, now + up, Floor.transform.position.z);
-        Camera.transform.position = new Vector3(Camera.transform.position.x, nowC + up*1.35f, Camera.transform.position.z);
+        //Camera.transform.position = new Vector3(Camera.transform.position.x, nowC + up*1.35f, Camera.transform.position.z);
     }
     IEnumerator FloorUp()
     {
         float up = 0;
         float now = Floor.transform.position.y;
-        float nowC = Camera.transform.position.y;
+        //float nowC = Camera.transform.position.y;
         while (up < 9)
         {
             yield return new WaitForSeconds(Time.deltaTime);
             Floor.transform.position = new Vector3(Floor.transform.position.x, now + up, Floor.transform.position.z);
-            Camera.transform.position = new Vector3(Camera.transform.position.x, nowC + up, Camera.transform.position.z);
+            //Camera.transform.position = new Vector3(Camera.transform.position.x, nowC + up, Camera.transform.position.z);
             up += 0.1f;
         }
         up = 9;
         Floor.transform.position = new Vector3(Floor.transform.position.x, now + up, Floor.transform.position.z);
-        Camera.transform.position = new Vector3(Camera.transform.position.x, nowC + up, Camera.transform.position.z);
+        //Camera.transform.position = new Vector3(Camera.transform.position.x, nowC + up, Camera.transform.position.z);
+        //Camera.transform.position = new Vector3(Camera.transform.position.x, nowC + up, Camera.transform.position.z);
 
 
     }

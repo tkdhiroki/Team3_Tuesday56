@@ -9,6 +9,9 @@ using UnityEngine;
 
 public class PlayerControl : MonoBehaviour
 {
+    [SerializeField]
+    private Camera camera;
+
     public static PlayerControl Instance;
 
     private Rigidbody2D rigid2D;
@@ -31,6 +34,9 @@ public class PlayerControl : MonoBehaviour
     public bool IsDiving { set { isDiving = value; } }
     [SerializeField, Tooltip("ジャンプを許可するか")]
     private bool permissionJump = false;
+    
+    [SerializeField, Tooltip("ステージに接地しているか")]
+    private bool isGround = false; //追記項目
 
     // プレイヤーの年齢変化
     [SerializeField, Tooltip("プレイヤーの年齢変化（5段階）")]
@@ -124,7 +130,7 @@ public class PlayerControl : MonoBehaviour
     private void Update()
     {
         Common();
-
+        CameraMove();
         if(nowSAN < maxSAN)
         {
             if (!isDiving)
@@ -171,7 +177,7 @@ public class PlayerControl : MonoBehaviour
         }
 
         // ジャンプ
-        if(permissionJump && Input.GetKeyDown(KeyCode.Space) && rigid2D.velocity.y == 0)
+        if(permissionJump && Input.GetKeyDown(KeyCode.Space) && isGround && rigid2D.velocity.y <= 1)
         {
             rigid2D.AddForce(transform.up * maxJump);
         }
@@ -231,5 +237,33 @@ public class PlayerControl : MonoBehaviour
 
         speedx = 0;
         sprite.color = new Color(255f / 255f, 120f / 255f, 0f / 255f);
+    }
+
+    //追加項目
+    /// <summary>
+    /// カメラの縦移動をプレイヤーに同期
+    /// </summary>
+    private void CameraMove()
+    {
+        camera.transform.position = new Vector3(camera.transform.position.x,
+                                                1.15f + transform.position.y, 
+                                                camera.transform.position.z);
+    }
+    //追加項目
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Stage" || collision.gameObject.tag == "MoveStage")
+        {
+            isGround = true;
+        }
+    }
+
+    //追加項目
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Stage" || collision.gameObject.tag == "MoveStage")
+        {
+            isGround = false;
+        }
     }
 }
