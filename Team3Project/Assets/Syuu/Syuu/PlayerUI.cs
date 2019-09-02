@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 public class PlayerUI : MonoBehaviour
 {
-    public GameObject Player;
-    //HPUI
-   
+    public GameObject Player;//PlayerGameObjectとセットしてください
+                             //Hpメーターとして作りましたが　san値メーターとして使ってください
+
     //-----
     public float HPMAX = 10;//HP总量
     public float PlayerHP = 10;//HP残量
@@ -24,12 +24,15 @@ public class PlayerUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        PlayerHP = Player.GetComponent<Player>().HP;//ここをプレイヤーのSan数値とセットしてください。
+        HPMAX = PlayerHP;
     }
     void Update()
     {
         HPUIBOX();//UI
         PlayerHP = Player.GetComponent<Player>().HP;
+     
+
 
     }
  

@@ -12,8 +12,8 @@ public class Oxygen : MonoBehaviour
     public float OxygenMAX = 100;//Oxygen总量
     public float PlayerOxygen = 100;//Oxygen残量
     //-----
-    public GameObject Player;
-    
+    public GameObject Player;//PlayerGameObjectとセットしてください
+
     public Image OxygenImege;
     public float  OxygenDown;//Oxygen残量計算用変数
 
@@ -27,8 +27,8 @@ public class Oxygen : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        OxygenMAX = Player.GetComponent<Player>().Oxygen;
-        PlayerOxygen = Player.GetComponent<Player>().Oxygen;
+        OxygenMAX = Player.GetComponent<Player>().Oxygen;　//ここの変数をプレイヤーの酸素変数をセットしてください
+        PlayerOxygen = Player.GetComponent<Player>().Oxygen; //ここの変数をプレイヤーの酸素変数をセットしてください
     }
     void Update()
     {
