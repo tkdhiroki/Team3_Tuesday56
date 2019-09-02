@@ -73,7 +73,7 @@ public class Event : MonoBehaviour
     }
     
 
-    private void OnTriggerEnter(Collider col)
+    private void OnTriggerEnter2D(Collider2D col)
     {
         //死体を見つけたら
         if(col.gameObject.tag == "CadaverMeet")
@@ -81,14 +81,24 @@ public class Event : MonoBehaviour
             eventNum = 2;
             StartCoroutine(EventReset(5f));
         }
+    }
 
-        //スーツを着ないで水に触れたら
-        if(col.gameObject.tag == "Water")
+    private void OnTriggerStay2D(Collider2D col)
+    {
+        //スーツを着ないで水に触れている間
+        if (col.gameObject.tag == "Water")
         {
             eventNum = 3;
-            StartCoroutine(EventReset(5f));
         }
+    }
 
+    private void OnTriggerExit2D(Collider2D col)
+    {
+        //水から離れたら
+        if (col.gameObject.tag == "Water")
+        {
+            StartCoroutine(EventReset(0f));
+        }
     }
 
     //イベントのリセット

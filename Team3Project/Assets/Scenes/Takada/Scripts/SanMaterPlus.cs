@@ -53,12 +53,12 @@ public class SanMaterPlus : MonoBehaviour
         }
         else if (Event.cadaverMeet == true)
         {
-            NowValue += 10;
+            NowValue += 50;
             Event.cadaverMeet = false;
         }
         else if (Event.water == true)
         {
-            NowValue += 5;
+            NowValue += 1;
             Event.water = false;
         }
     }
