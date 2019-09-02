@@ -29,6 +29,12 @@ public class SanMaterPlus : MonoBehaviour
     {
         EventCheck();
         SanCheck();
+        ValueCheck();
+    }
+
+    public void ValueCheck()
+    {
+        SanGauge.value = NowValue;
     }
 
     //SAN値が最大値になったかどうか
@@ -53,7 +59,7 @@ public class SanMaterPlus : MonoBehaviour
         }
         else if (Event.cadaverMeet == true)
         {
-            NowValue += 20;
+            NowValue += 100;
             Event.cadaverMeet = false;
         }
         else if (Event.water == true)

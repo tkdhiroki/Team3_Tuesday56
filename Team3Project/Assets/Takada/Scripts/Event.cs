@@ -68,17 +68,17 @@ public class Event : MonoBehaviour
         if (audioFlag == true)
         {
             eventNum = 1;
-            StartCoroutine(EventReset(5f));
+            StartCoroutine(EventReset(1f));
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D col)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         //死体を見つけたら
-        if (col.gameObject.tag == "CadaverMeet")
+        if (collision.gameObject.tag == "CadaverMeet")
         {
             eventNum = 2;
-            StartCoroutine(EventReset(5f));
+            StartCoroutine(EventReset(1f));
         }
     }
 
