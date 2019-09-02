@@ -16,8 +16,13 @@ public class TIME : MonoBehaviour
     void Update()
     {
         TIMEOUT = TIMEOUT - 1 * Time.deltaTime;
-        if (TIMEOUT > 0) {
+        if (TIMEOUT > 0)
+        {
             TIMETEXT.text = " " + (int)TIMEOUT;
+        }
+        if (TIMEOUT < 0)
+        {
+          //  GameObject.Find("UIBOX").SendMessage("DIEEND");
         }
        
 

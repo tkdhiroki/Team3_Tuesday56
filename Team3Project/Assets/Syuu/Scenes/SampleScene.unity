@@ -507,6 +507,7 @@ GameObject:
   - component: {fileID: 1154963522}
   - component: {fileID: 1154963524}
   - component: {fileID: 1154963525}
+  - component: {fileID: 1154963526}
   m_Layer: 5
   m_Name: UIBOX
   m_TagString: Untagged
@@ -628,8 +629,8 @@ MonoBehaviour:
   PlayerHP: 10
   HPimage: {fileID: 96617270}
   HPimageRed: {fileID: 917816661}
-  HPDownSpeed: 0
-  HPPercentage: 0
+  HPDownSpeed: 10
+  HPPercentage: 10
   ImagePercentage: 0
 --- !u!114 &1154963524
 MonoBehaviour:
@@ -648,8 +649,8 @@ MonoBehaviour:
   Player: {fileID: 1683631394}
   OxygenImege: {fileID: 919192799}
   OxygenDown: 0
-  OxygenDownSpeed: 0
-  OxygenPercentage: 0
+  OxygenDownSpeed: 10
+  OxygenPercentage: 10
   ImagePercentage: 0
 --- !u!114 &1154963525
 MonoBehaviour:
@@ -665,6 +666,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TIMETEXT: {fileID: 1924535109}
   TIMEOUT: 120
+--- !u!114 &1154963526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1154963517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a54dce6f6d99eb14fa95e3d3b3309fe3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1683631394
 GameObject:
   m_ObjectHideFlags: 0
