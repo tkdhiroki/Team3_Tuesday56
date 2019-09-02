@@ -31,8 +31,12 @@ public class PlayerUI : MonoBehaviour
     {
         HPUIBOX();//UI
         PlayerHP = Player.GetComponent<Player>().HP;
-     
 
+        if (PlayerHP <= 0)
+        {
+            GameObject.Find("UIBOX").SendMessage("DIEEND");
+
+        }
 
     }
  

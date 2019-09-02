@@ -34,6 +34,11 @@ public class Oxygen : MonoBehaviour
     {
         OxygenUIBOX();
         PlayerOxygen = Player.GetComponent<Player>().Oxygen;
+        if (PlayerOxygen <= 0)
+        {
+            GameObject.Find("UIBOX").SendMessage("DIEEND");
+
+        }
     }
 
 
