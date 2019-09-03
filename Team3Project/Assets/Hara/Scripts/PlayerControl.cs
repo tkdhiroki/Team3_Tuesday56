@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(BoxCollider2D))]
 [RequireComponent(typeof(Rigidbody2D))]
@@ -11,6 +12,8 @@ public class PlayerControl : MonoBehaviour
 {
     [SerializeField]
     private Camera camera;
+
+    private SceneManager sceneManager;
 
     public static PlayerControl Instance;
 
@@ -108,6 +111,10 @@ public class PlayerControl : MonoBehaviour
     private int riseSAN = 0;    // SAN値の上昇値
     public int RiseSAN { get { return riseSAN; } }
     private int clickCounter = 0;    // 連打用のカウント
+    private bool flagSAN = false;    // SAN値がMAXならture
+    public bool FlagSAN { set { flagSAN = value; } }
+    private bool resetSAN = false;    // SAN値が0になったことを検知するフラグ
+    public bool ResetSAN { set { resetSAN = value; } }
 
     private void Awake()
     {
@@ -131,7 +138,7 @@ public class PlayerControl : MonoBehaviour
     {
         Common();
         CameraMove();
-        if(nowSAN < maxSAN)
+        if(!flagSAN)
         {
             if (!isDiving)
             {
@@ -145,6 +152,12 @@ public class PlayerControl : MonoBehaviour
         else
         {
             ActionSAN(true);
+            if (resetSAN)
+            {
+                ActionSAN(false);
+                flagSAN = false;
+            }
+            /*
             if(clickCounter < 10)
             {
                 if (Input.GetKeyDown(KeyCode.Space))
@@ -157,6 +170,7 @@ public class PlayerControl : MonoBehaviour
                 ActionSAN(false);
                 clickCounter = 0;
             }
+            */
         }
         
     }
@@ -232,6 +246,7 @@ public class PlayerControl : MonoBehaviour
         {
             nowSAN = 0;
             sprite.color = new Color(255f / 255f, 255f / 255f, 255f / 255f);
+            resetSAN = false;
             return;
         }
 
@@ -249,6 +264,14 @@ public class PlayerControl : MonoBehaviour
                                                 1.15f + transform.position.y, 
                                                 camera.transform.position.z);
     }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "clear")
+        {
+            SceneManager.LoadScene("Clear");
+        }
+    }
+
     //追加項目
     private void OnCollisionStay2D(Collision2D collision)
     {

@@ -8,7 +8,8 @@ public class SanMaterPlus : MonoBehaviour
 
     private Slider SanGauge;   //SAN値ゲージ
     float MaxValue = 100;   //最高値
-    float NowValue = 0;     //現在値
+    [SerializeField, Range(0,100)]
+    float NowValue = 100;     //現在値
 
     public static bool madFlag = false; //発狂しているかどうか
 
@@ -41,9 +42,10 @@ public class SanMaterPlus : MonoBehaviour
     private void SanCheck()
     {
         //最大値になったら発狂して10秒後に解除しSAN値を0にする
-        if(NowValue == MaxValue)
+        if(NowValue <= 0)
         {
             madFlag = true;
+            PlayerControl.Instance.FlagSAN = true;
             StartCoroutine(SanReset(5f));
         }
     }
@@ -54,17 +56,17 @@ public class SanMaterPlus : MonoBehaviour
         //各イベントが発生したらSAN値を上昇させフラグをオフにする
         if (Event.explosion == true)
         {
-            NowValue += 20;
+            NowValue -= 20;
             Event.explosion = false;
         }
         else if (Event.cadaverMeet == true)
         {
-            NowValue += 100;
+            NowValue -= 100;
             Event.cadaverMeet = false;
         }
         else if (Event.water == true)
         {
-            NowValue += 1;
+            NowValue -= 1;
             Event.water = false;
         }
     }
@@ -75,9 +77,9 @@ public class SanMaterPlus : MonoBehaviour
 
         yield return new WaitForSeconds(waitTime);
 
-        NowValue = 0;
+        NowValue = 100;
         madFlag = false;
-
+        PlayerControl.Instance.ResetSAN = true;
         yield break;
 
     }

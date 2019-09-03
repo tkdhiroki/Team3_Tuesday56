@@ -23,11 +23,13 @@ public class Switch : MonoBehaviour
     GameObject Camera;
     [SerializeField]
     float doorWaitTime;
+    GameObject water;
     // Start is called before the first frame update
     void Start()
     {
         enable = false;
-        //Camera = GameObject.Find("Main Camera");
+        water = GameObject.Find("Water");
+        Camera = GameObject.Find("Main Camera");
     }
 
     // Update is called once per frame
@@ -88,6 +90,7 @@ public class Switch : MonoBehaviour
             yield return new WaitForSeconds(Time.deltaTime); 
             Floor.transform.position = new Vector3(Floor.transform.position.x, now + up, Floor.transform.position.z);
             //Camera.transform.position = new Vector3(Camera.transform.position.x, nowC + up*1.5f, Camera.transform.position.z);
+            water.transform.position = new Vector3(water.transform.position.x, Camera.transform.position.y - 10.35f, water.transform.position.z);
             up += 0.1f;
         }
         up = 7;
@@ -104,6 +107,7 @@ public class Switch : MonoBehaviour
             yield return new WaitForSeconds(Time.deltaTime);
             Floor.transform.position = new Vector3(Floor.transform.position.x, now + up, Floor.transform.position.z);
             //Camera.transform.position = new Vector3(Camera.transform.position.x, nowC + up, Camera.transform.position.z);
+            water.transform.position = new Vector3(water.transform.position.x, Camera.transform.position.y - 10.35f, water.transform.position.z);
             up += 0.1f;
         }
         up = 9;
