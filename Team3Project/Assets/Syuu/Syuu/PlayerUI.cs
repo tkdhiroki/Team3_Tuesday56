@@ -24,13 +24,13 @@ public class PlayerUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        PlayerHP = Player.GetComponent<Player>().HP;//ここをプレイヤーのSan数値とセットしてください。
+        PlayerHP = Player.GetComponent<Player>().San;//ここをプレイヤーのSan数値とセットしてください。
         HPMAX = PlayerHP;
     }
     void Update()
     {
         HPUIBOX();//UI
-        PlayerHP = Player.GetComponent<Player>().HP;
+        PlayerHP = Player.GetComponent<Player>().San;
 
         if (PlayerHP <= 0)
         {
